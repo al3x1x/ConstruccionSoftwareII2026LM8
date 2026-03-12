@@ -1,0 +1,13 @@
+package app.domain.enums;
+
+public enum AuditOperationType {
+    ACCOUNT_OPENING,
+    DEPOSIT,
+    WITHDRAWAL,
+    TRANSFER_EXECUTED,
+    TRANSFER_REJECTED,
+    TRANSFER_EXPIRED,
+    LOAN_APPROVAL,
+    LOAN_REJECTION,
+    LOAN_DISBURSEMENT
+}
