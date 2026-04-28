@@ -5,11 +5,12 @@ import app.domain.enums.LoanStatus;
 import app.domain.enums.LoanType;
 import app.domain.enums.UserRole;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class CommercialEmployee extends User {
 
-    // ── Constructor ───────────────────────────────────────────────────
+    // ── Constructor ────────────────────────────────────────────────────
 
     public CommercialEmployee(String userId, String fullName, String identificationNumber,
                                String email, String phone, LocalDate birthDate,
@@ -20,7 +21,7 @@ public class CommercialEmployee extends User {
 
 
     public Loan createLoanRequest(String loanId, String clientId, LoanType loanType,
-                                   double requestedAmount, int termMonths) {
+                                   BigDecimal requestedAmount, int termMonths) {
         return new Loan(loanId, loanType, clientId, requestedAmount, termMonths);
     }
 

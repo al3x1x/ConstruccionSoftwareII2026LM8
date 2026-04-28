@@ -3,6 +3,7 @@ package app;
 import app.domain.enums.*;
 import app.domain.models.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Main {
@@ -48,7 +49,7 @@ public class Main {
                 "carlosl",
                 "hashed_password"
         );
-        teller.deposit(account, 50000.00);
+        teller.deposit(account, new BigDecimal("50000.00"));
         System.out.println("\nDepósito realizado.");
         System.out.println("Saldo después del depósito: " + account.getCurrentBalance());
 
@@ -68,7 +69,7 @@ public class Main {
                 "LOA-001",
                 client.getIdentificationNumber(),
                 LoanType.CONSUMER,
-                20000.00,
+                new BigDecimal("20000.00"),
                 12
         );
         client.addLoan(loan);
@@ -96,7 +97,7 @@ public class Main {
         );
         client.addAccount(loanAccount);
 
-        analyst.approveLoan(loan, 18000.00, 12.5);
+        analyst.approveLoan(loan, new BigDecimal("18000.00"), new BigDecimal("12.5"));
         System.out.println("\nPréstamo aprobado: " + loan);
 
         analyst.disburseLoan(loan, loanAccount);
@@ -108,7 +109,7 @@ public class Main {
                 "TRF-001",
                 account.getAccountNumber(),
                 loanAccount.getAccountNumber(),
-                5000.00,
+                new BigDecimal("5000.00"),
                 client.getUserId()
         );
         System.out.println("\nTransferencia creada: " + transfer);
@@ -123,15 +124,15 @@ public class Main {
                 "LOG-001",
                 AuditOperationType.TRANSFER_EXECUTED,
                 client.getUserId(),
-                client.getRole().toString(),
+                client.getRole(),
                 transfer.getTransferId()
         );
         TransferDetail detail = new TransferDetail(
-                5000.00,
-                50000.00,
-                45000.00,
-                18000.00,
-                23000.00
+                new BigDecimal("5000.00"),
+                new BigDecimal("50000.00"),
+                new BigDecimal("45000.00"),
+                new BigDecimal("18000.00"),
+                new BigDecimal("23000.00")
         );
         log.setTransferDetail(detail);
         System.out.println("\nBitácora registrada: " + log);

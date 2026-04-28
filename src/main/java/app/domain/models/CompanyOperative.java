@@ -2,6 +2,7 @@ package app.domain.models;
 
 import app.domain.enums.UserRole;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class CompanyOperative extends User {
     // ── Métodos de negocio ────────────────────────────────────────────
 
     public Transfer createTransfer(String transferId, String originAccount,
-                                    String destinationAccount, double amount) {
+                                    String destinationAccount, BigDecimal amount) {
         return new Transfer(transferId, originAccount, destinationAccount,
                             amount, this.getUserId());
     }
@@ -34,7 +35,7 @@ public class CompanyOperative extends User {
         List<Transfer> transfers = new ArrayList<>();
         for (String[] entry : entries) {
             String destinationAccount = entry[0];
-            double amount = Double.parseDouble(entry[1]);
+            BigDecimal amount = new BigDecimal(entry[1]);
             String transferId = entry[2];
             transfers.add(createTransfer(transferId, originAccount, destinationAccount, amount));
         }

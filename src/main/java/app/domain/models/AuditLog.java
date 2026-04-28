@@ -1,6 +1,7 @@
 package app.domain.models;
 
 import app.domain.enums.AuditOperationType;
+import app.domain.enums.UserRole;
 
 import java.time.LocalDateTime;
 
@@ -10,18 +11,18 @@ public class AuditLog {
     private AuditOperationType operationType;
     private LocalDateTime operationDateTime;
     private String executorUserId;
-    private String executorUserRole;
+    private UserRole executorUserRole;
     private String affectedProductId;
 
-    // Solo uno de estos tres tendrá valor según el tipo de operación
+    // Only one of these three values will be set according to operation type
     private TransferDetail transferDetail;
     private LoanDetail loanDetail;
     private ExpirationDetail expirationDetail;
 
-    // ── Constructor ───────────────────────────────────────────────────
+    // ── Constructor ────────────────────────────────────────────────────
 
     public AuditLog(String auditLogId, AuditOperationType operationType,
-                     String executorUserId, String executorUserRole,
+                     String executorUserId, UserRole executorUserRole,
                      String affectedProductId) {
         this.auditLogId = auditLogId;
         this.operationType = operationType;
@@ -31,7 +32,7 @@ public class AuditLog {
         this.operationDateTime = LocalDateTime.now();
     }
 
-    // ── Getters & Setters ─────────────────────────────────────────────
+    // ── Getters & Setters ──────────────────────────────────────────────
 
     public String getAuditLogId() { return auditLogId; }
     public void setAuditLogId(String auditLogId) { this.auditLogId = auditLogId; }
@@ -45,8 +46,8 @@ public class AuditLog {
     public String getExecutorUserId() { return executorUserId; }
     public void setExecutorUserId(String executorUserId) { this.executorUserId = executorUserId; }
 
-    public String getExecutorUserRole() { return executorUserRole; }
-    public void setExecutorUserRole(String executorUserRole) { this.executorUserRole = executorUserRole; }
+    public UserRole getExecutorUserRole() { return executorUserRole; }
+    public void setExecutorUserRole(UserRole executorUserRole) { this.executorUserRole = executorUserRole; }
 
     public String getAffectedProductId() { return affectedProductId; }
     public void setAffectedProductId(String affectedProductId) { this.affectedProductId = affectedProductId; }

@@ -3,6 +3,7 @@ package app.domain.models;
 import app.domain.enums.AccountType;
 import app.domain.enums.UserRole;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class TellerEmployee extends User {
@@ -18,14 +19,14 @@ public class TellerEmployee extends User {
 
     // ── Métodos de negocio ────────────────────────────────────────────
 
-    public void deposit(BankAccount account, double amount) {
+    public void deposit(BankAccount account, BigDecimal amount) {
         if (!account.isActive()) {
             throw new IllegalStateException("Cannot deposit into a non-active account.");
         }
         account.credit(amount);
     }
 
-    public void withdrawal(BankAccount account, double amount) {
+    public void withdrawal(BankAccount account, BigDecimal amount) {
         if (!account.isActive()) {
             throw new IllegalStateException("Cannot withdraw from a non-active account.");
         }

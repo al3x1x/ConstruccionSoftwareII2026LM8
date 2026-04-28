@@ -25,7 +25,7 @@ public class CompanySupervisor extends User {
         if (!TransferStatus.AWAITING_APPROVAL.equals(transfer.getStatus())) {
             throw new IllegalStateException("Only transfers AWAITING_APPROVAL can be approved.");
         }
-        if (originAccount.getCurrentBalance() < transfer.getAmount()) {
+        if (originAccount.getCurrentBalance().compareTo(transfer.getAmount()) < 0) {
             throw new IllegalStateException("Insufficient funds in origin account.");
         }
         transfer.approve(this.getUserId());

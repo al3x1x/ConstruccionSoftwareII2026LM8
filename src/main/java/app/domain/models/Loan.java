@@ -3,6 +3,7 @@ package app.domain.models;
 import app.domain.enums.LoanStatus;
 import app.domain.enums.LoanType;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Loan {
@@ -10,30 +11,30 @@ public class Loan {
     private String loanId;
     private LoanType loanType;
     private String clientId;
-    private double requestedAmount;
-    private double approvedAmount;
-    private double interestRate;
+    private BigDecimal requestedAmount;
+    private BigDecimal approvedAmount;
+    private BigDecimal interestRate;
     private int termMonths;
     private LoanStatus loanStatus;
     private LocalDate approvalDate;
     private LocalDate disbursementDate;
     private String disbursementAccountNumber;
 
-    // ── Constructor ───────────────────────────────────────────────────
+    // ── Constructor ────────────────────────────────────────────────────
 
     public Loan(String loanId, LoanType loanType, String clientId,
-                double requestedAmount, int termMonths) {
+                BigDecimal requestedAmount, int termMonths) {
         this.loanId = loanId;
         this.loanType = loanType;
         this.clientId = clientId;
         this.requestedAmount = requestedAmount;
         this.termMonths = termMonths;
-        this.loanStatus = LoanStatus.UNDER_REVIEW; // todo préstamo empieza en estudio
+        this.loanStatus = LoanStatus.UNDER_REVIEW; // all loans start in UNDER_REVIEW status
     }
 
-    // ── Métodos de negocio ────────────────────────────────────────────
+    // ── Business Methods ──────────────────────────────────────────────────
 
-    public void approve(double approvedAmount, double interestRate) {
+    public void approve(BigDecimal approvedAmount, BigDecimal interestRate) {
         this.approvedAmount = approvedAmount;
         this.interestRate = interestRate;
         this.loanStatus = LoanStatus.APPROVED;
@@ -51,7 +52,7 @@ public class Loan {
         this.loanStatus = LoanStatus.DISBURSED;
     }
 
-    // ── Getters & Setters ─────────────────────────────────────────────
+    // ── Getters & Setters ──────────────────────────────────────────────
 
     public String getLoanId() { return loanId; }
     public void setLoanId(String loanId) { this.loanId = loanId; }
@@ -62,14 +63,14 @@ public class Loan {
     public String getClientId() { return clientId; }
     public void setClientId(String clientId) { this.clientId = clientId; }
 
-    public double getRequestedAmount() { return requestedAmount; }
-    public void setRequestedAmount(double requestedAmount) { this.requestedAmount = requestedAmount; }
+    public BigDecimal getRequestedAmount() { return requestedAmount; }
+    public void setRequestedAmount(BigDecimal requestedAmount) { this.requestedAmount = requestedAmount; }
 
-    public double getApprovedAmount() { return approvedAmount; }
-    public void setApprovedAmount(double approvedAmount) { this.approvedAmount = approvedAmount; }
+    public BigDecimal getApprovedAmount() { return approvedAmount; }
+    public void setApprovedAmount(BigDecimal approvedAmount) { this.approvedAmount = approvedAmount; }
 
-    public double getInterestRate() { return interestRate; }
-    public void setInterestRate(double interestRate) { this.interestRate = interestRate; }
+    public BigDecimal getInterestRate() { return interestRate; }
+    public void setInterestRate(BigDecimal interestRate) { this.interestRate = interestRate; }
 
     public int getTermMonths() { return termMonths; }
     public void setTermMonths(int termMonths) { this.termMonths = termMonths; }

@@ -3,6 +3,7 @@ package app.domain.models;
 import app.domain.enums.LoanStatus;
 import app.domain.enums.UserRole;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class InternalAnalyst extends User {
@@ -18,7 +19,7 @@ public class InternalAnalyst extends User {
 
     // ── Métodos de negocio ────────────────────────────────────────────
 
-    public void approveLoan(Loan loan, double approvedAmount, double interestRate) {
+    public void approveLoan(Loan loan, BigDecimal approvedAmount, BigDecimal interestRate) {
         if (!LoanStatus.UNDER_REVIEW.equals(loan.getLoanStatus())) {
             throw new IllegalStateException("Only loans UNDER_REVIEW can be approved.");
         }

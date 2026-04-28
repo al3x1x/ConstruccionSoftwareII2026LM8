@@ -1,18 +1,20 @@
 package app.domain.models;
 
+import java.math.BigDecimal;
+
 public class TransferDetail {
 
-    private double amount;
-    private double balanceBeforeOrigin;
-    private double balanceAfterOrigin;
-    private double balanceBeforeDestination;
-    private double balanceAfterDestination;
+    private BigDecimal amount;
+    private BigDecimal balanceBeforeOrigin;
+    private BigDecimal balanceAfterOrigin;
+    private BigDecimal balanceBeforeDestination;
+    private BigDecimal balanceAfterDestination;
 
     // ── Constructor ───────────────────────────────────────────────────
 
-    public TransferDetail(double amount, double balanceBeforeOrigin,
-                           double balanceAfterOrigin, double balanceBeforeDestination,
-                           double balanceAfterDestination) {
+    public TransferDetail(BigDecimal amount, BigDecimal balanceBeforeOrigin,
+                           BigDecimal balanceAfterOrigin, BigDecimal balanceBeforeDestination,
+                           BigDecimal balanceAfterDestination) {
         this.amount = amount;
         this.balanceBeforeOrigin = balanceBeforeOrigin;
         this.balanceAfterOrigin = balanceAfterOrigin;
@@ -21,20 +23,20 @@ public class TransferDetail {
     }
 
 
-    public double getAmount() { return amount; }
-    public void setAmount(double amount) { this.amount = amount; }
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public double getBalanceBeforeOrigin() { return balanceBeforeOrigin; }
-    public void setBalanceBeforeOrigin(double balanceBeforeOrigin) { this.balanceBeforeOrigin = balanceBeforeOrigin; }
+    public BigDecimal getBalanceBeforeOrigin() { return balanceBeforeOrigin; }
+    public void setBalanceBeforeOrigin(BigDecimal balanceBeforeOrigin) { this.balanceBeforeOrigin = balanceBeforeOrigin; }
 
-    public double getBalanceAfterOrigin() { return balanceAfterOrigin; }
-    public void setBalanceAfterOrigin(double balanceAfterOrigin) { this.balanceAfterOrigin = balanceAfterOrigin; }
+    public BigDecimal getBalanceAfterOrigin() { return balanceAfterOrigin; }
+    public void setBalanceAfterOrigin(BigDecimal balanceAfterOrigin) { this.balanceAfterOrigin = balanceAfterOrigin; }
 
-    public double getBalanceBeforeDestination() { return balanceBeforeDestination; }
-    public void setBalanceBeforeDestination(double balanceBeforeDestination) { this.balanceBeforeDestination = balanceBeforeDestination; }
+    public BigDecimal getBalanceBeforeDestination() { return balanceBeforeDestination; }
+    public void setBalanceBeforeDestination(BigDecimal balanceBeforeDestination) { this.balanceBeforeDestination = balanceBeforeDestination; }
 
-    public double getBalanceAfterDestination() { return balanceAfterDestination; }
-    public void setBalanceAfterDestination(double balanceAfterDestination) { this.balanceAfterDestination = balanceAfterDestination; }
+    public BigDecimal getBalanceAfterDestination() { return balanceAfterDestination; }
+    public void setBalanceAfterDestination(BigDecimal balanceAfterDestination) { this.balanceAfterDestination = balanceAfterDestination; }
 
     @Override
     public String toString() {

@@ -3,6 +3,7 @@ package app.domain.models;
 import app.domain.enums.AccountStatus;
 import app.domain.enums.AccountType;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class BankAccount {
@@ -10,12 +11,12 @@ public class BankAccount {
     private String accountNumber;
     private AccountType accountType;
     private String holderId;
-    private double currentBalance;
+    private BigDecimal currentBalance;
     private String currency;
     private AccountStatus status;
     private LocalDate openingDate;
 
-    // ── Constructor ───────────────────────────────────────────────────
+    // ── Constructor ────────────────────────────────────────────────────
 
     public BankAccount(String accountNumber, AccountType accountType,
                        String holderId, String currency) {
@@ -23,27 +24,26 @@ public class BankAccount {
         this.accountType = accountType;
         this.holderId = holderId;
         this.currency = currency;
-        this.currentBalance = 0.0;
+        this.currentBalance = BigDecimal.ZERO;
         this.status = AccountStatus.ACTIVE;
         this.openingDate = LocalDate.now();
     }
 
-    // ── Métodos de negocio
-    //  ────────────────────────────────────────────
+    // ── Business Methods ────────────────────────────────────────────────
 
-    public void credit(double amount) {
-        this.currentBalance += amount;
+    public void credit(BigDecimal amount) {
+        this.currentBalance = this.currentBalance.add(amount);
     }
 
-    public void debit(double amount) {
-        this.currentBalance -= amount;
+    public void debit(BigDecimal amount) {
+        this.currentBalance = this.currentBalance.subtract(amount);
     }
 
     public boolean isActive() {
         return AccountStatus.ACTIVE.equals(this.status);
     }
 
-    // ── Getters & Setters ─────────────────────────────────────────────
+    // ── Getters & Setters ──────────────────────────────────────────────
 
     public String getAccountNumber() { return accountNumber; }
     public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
@@ -54,7 +54,7 @@ public class BankAccount {
     public String getHolderId() { return holderId; }
     public void setHolderId(String holderId) { this.holderId = holderId; }
 
-    public double getCurrentBalance() { return currentBalance; }
+    public BigDecimal getCurrentBalance() { return currentBalance; }
 
     public String getCurrency() { return currency; }
     public void setCurrency(String currency) { this.currency = currency; }
