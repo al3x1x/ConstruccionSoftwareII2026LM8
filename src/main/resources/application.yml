@@ -2,11 +2,14 @@ spring:
   application:
     name: bank-system
 
-  # SQL Server Configuration
+  docker:
+    compose:
+      enabled: false
+
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=BankDB;encrypt=true;trustServerCertificate=true
+    url: jdbc:sqlserver://localhost\SQLEXPRESS:1433;databaseName=BankDB;encrypt=true;trustServerCertificate=true
     username: sa
-    password: YourPassword123!
+    password: Admin123!
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
   jpa:
@@ -14,21 +17,15 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.SQLServer2016Dialect
+        dialect: org.hibernate.dialect.SQLServerDialect
         format_sql: true
         show_sql: false
     show-sql: false
+    database-platform: org.hibernate.dialect.SQLServerDialect
 
-  # MongoDB Configuration
   data:
     mongodb:
-      uri: mongodb://localhost:27017/bank_db
-      # Alternative configuration:
-      # host: localhost
-      # port: 27017
-      # database: bank_db
-      # username: admin
-      # password: password
+      uri: ${MONGO_URI:mongodb://localhost:27017/bank_db}
 
 logging:
   level:
@@ -40,3 +37,10 @@ server:
   port: 8080
   servlet:
     context-path: /api
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: mappings
