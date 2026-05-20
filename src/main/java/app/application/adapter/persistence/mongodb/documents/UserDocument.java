@@ -13,6 +13,7 @@ public class UserDocument {
     private String id;
 
     private String name;
+    private String username;
     private String email;
     private String phone;
     private UserRole role;
@@ -20,6 +21,7 @@ public class UserDocument {
     private String passwordHash;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+    private String assignedCommercialEmployeeId;
 
     // Constructors
     public UserDocument() {}
@@ -42,6 +44,9 @@ public class UserDocument {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
@@ -62,4 +67,10 @@ public class UserDocument {
 
     public LocalDate getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDate updatedAt) { this.updatedAt = updatedAt; }
+
+    public String getAssignedCommercialEmployeeId() { return assignedCommercialEmployeeId; }
+    public void setAssignedCommercialEmployeeId(String assignedCommercialEmployeeId) {
+        this.assignedCommercialEmployeeId = assignedCommercialEmployeeId;
+    }
 }
+

@@ -7,6 +7,7 @@ import app.domain.enums.UserRole;
 import app.domain.ports.UserRepository;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -56,6 +57,12 @@ public class MongoDbUserRepository implements UserRepository {
         return mongoRepository.existsById(id);
     }
 
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return mongoRepository.findByUsername(username)
+                .map(this::toDomainModel);
+    }
+
     private User toDomainModel(UserDocument document) {
         // No se puede instanciar User directamente (es abstracta)
         // Este repositorio solo actúa como almacenamiento
@@ -67,6 +74,7 @@ public class MongoDbUserRepository implements UserRepository {
         UserDocument document = new UserDocument();
         document.setId(user.getUserId());
         document.setName(user.getFullName());
+        document.setUsername(user.getUsername());
         document.setEmail(user.getEmail());
         document.setPhone(user.getPhone());
         document.setRole(user.getRole());
@@ -76,3 +84,4 @@ public class MongoDbUserRepository implements UserRepository {
         return document;
     }
 }
+

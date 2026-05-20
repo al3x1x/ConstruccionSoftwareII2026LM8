@@ -12,6 +12,7 @@ public class NaturalPersonClient extends User {
     private List<BankAccount> accounts;
     private List<Loan> loans;
     private List<Transfer> transfers;
+    private String assignedCommercialEmployeeId;
 
     // ── Constructor ───────────────────────────────────────────────────
 
@@ -50,6 +51,11 @@ public class NaturalPersonClient extends User {
     public List<BankAccount> getAccounts() { return accounts; }
     public List<Loan> getLoans() { return loans; }
     public List<Transfer> getTransfers() { return transfers; }
+
+    public String getAssignedCommercialEmployeeId() { return assignedCommercialEmployeeId; }
+    public void setAssignedCommercialEmployeeId(String assignedCommercialEmployeeId) {
+        this.assignedCommercialEmployeeId = assignedCommercialEmployeeId;
+    }
 
     @Override
     public String toString() {

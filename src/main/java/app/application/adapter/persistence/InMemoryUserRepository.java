@@ -6,6 +6,7 @@ import app.domain.ports.UserRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class InMemoryUserRepository implements UserRepository {
@@ -42,4 +43,12 @@ public class InMemoryUserRepository implements UserRepository {
     public boolean existsById(String id) {
         return users.containsKey(id);
     }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return users.values().stream()
+            .filter(u -> username.equals(u.getUsername()))
+            .findFirst();
+    }
 }
+

@@ -17,6 +17,7 @@ public class Transfer {
     private TransferStatus status;
     private String creatorUserId;
     private String approverUserId;
+    private String assignedCommercialEmployeeId;
 
     // Business rule: enterprise transfers above this amount require approval
     public static final BigDecimal APPROVAL_THRESHOLD = new BigDecimal("10000.00");
@@ -99,6 +100,11 @@ public class Transfer {
 
     public String getApproverUserId() { return approverUserId; }
     public void setApproverUserId(String approverUserId) { this.approverUserId = approverUserId; }
+
+    public String getAssignedCommercialEmployeeId() { return assignedCommercialEmployeeId; }
+    public void setAssignedCommercialEmployeeId(String assignedCommercialEmployeeId) {
+        this.assignedCommercialEmployeeId = assignedCommercialEmployeeId;
+    }
 
     @Override
     public String toString() {

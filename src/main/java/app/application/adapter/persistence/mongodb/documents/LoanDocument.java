@@ -24,6 +24,7 @@ public class LoanDocument {
     private LocalDate disbursementDate;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+    private String assignedCommercialEmployeeId;
 
     // Constructors
     public LoanDocument() {}
@@ -75,4 +76,9 @@ public class LoanDocument {
 
     public LocalDate getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDate updatedAt) { this.updatedAt = updatedAt; }
+
+    public String getAssignedCommercialEmployeeId() { return assignedCommercialEmployeeId; }
+    public void setAssignedCommercialEmployeeId(String assignedCommercialEmployeeId) {
+        this.assignedCommercialEmployeeId = assignedCommercialEmployeeId;
+    }
 }

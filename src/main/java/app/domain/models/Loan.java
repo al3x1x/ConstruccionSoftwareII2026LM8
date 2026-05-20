@@ -19,6 +19,7 @@ public class Loan {
     private LocalDate approvalDate;
     private LocalDate disbursementDate;
     private String disbursementAccountNumber;
+    private String assignedCommercialEmployeeId;
 
     // ── Constructor ────────────────────────────────────────────────────
 
@@ -86,6 +87,11 @@ public class Loan {
 
     public String getDisbursementAccountNumber() { return disbursementAccountNumber; }
     public void setDisbursementAccountNumber(String disbursementAccountNumber) { this.disbursementAccountNumber = disbursementAccountNumber; }
+
+    public String getAssignedCommercialEmployeeId() { return assignedCommercialEmployeeId; }
+    public void setAssignedCommercialEmployeeId(String assignedCommercialEmployeeId) {
+        this.assignedCommercialEmployeeId = assignedCommercialEmployeeId;
+    }
 
     @Override
     public String toString() {

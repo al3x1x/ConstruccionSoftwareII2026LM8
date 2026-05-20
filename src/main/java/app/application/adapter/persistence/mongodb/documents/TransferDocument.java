@@ -22,6 +22,7 @@ public class TransferDocument {
     private String approverUserId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String assignedCommercialEmployeeId;
 
     // Constructors
     public TransferDocument() {}
@@ -71,4 +72,9 @@ public class TransferDocument {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public String getAssignedCommercialEmployeeId() { return assignedCommercialEmployeeId; }
+    public void setAssignedCommercialEmployeeId(String assignedCommercialEmployeeId) {
+        this.assignedCommercialEmployeeId = assignedCommercialEmployeeId;
+    }
 }
