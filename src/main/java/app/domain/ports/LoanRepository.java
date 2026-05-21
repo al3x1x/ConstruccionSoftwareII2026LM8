@@ -2,9 +2,11 @@ package app.domain.ports;
 
 import app.domain.models.Loan;
 import java.util.List;
+import java.util.Optional; 
 
 public interface LoanRepository {
-    Loan findByLoanId(String loanId);
+    Optional<Loan> findByLoanId(String loanId);
+    
     void save(Loan loan);
     List<Loan> findByClientId(String clientId);
     void update(Loan loan);

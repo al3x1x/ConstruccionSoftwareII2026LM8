@@ -20,22 +20,17 @@ public class DisburseLoanService {
     }
 
     public void execute(DisburseLoanCommand command) {
-        // Find loan
-        Loan loan = loanRepository.findByLoanId(command.getLoanId());
-        if (loan == null) {
-            throw new IllegalArgumentException("Loan with ID " + command.getLoanId() + " not found");
-        }
+        // 1. CORREGIDO: Buscamos el préstamo usando orElseThrow() ya que ahora retorna Optional
+        Loan loan = loanRepository.findByLoanId(command.getLoanId())
+            .orElseThrow(() -> new IllegalArgumentException("Loan with ID " + command.getLoanId() + " not found"));
 
         // Validate loan is APPROVED
         if (!LoanStatus.APPROVED.equals(loan.getLoanStatus())) {
             throw new IllegalStateException("Only APPROVED loans can be disbursed");
         }
 
-        // Find destination account
-        BankAccount destinationAccount = bankAccountRepository.findByAccountNumber(command.getDestinationAccountNumber());
-        if (destinationAccount == null) {
-            throw new IllegalArgumentException("Account with number " + command.getDestinationAccountNumber() + " not found");
-        }
+        BankAccount destinationAccount = bankAccountRepository.findByAccountNumber(command.getDestinationAccountNumber())
+            .orElseThrow(() -> new IllegalArgumentException("Account with number " + command.getDestinationAccountNumber() + " not found"));
 
         // Disburse the loan
         loan.disburse(destinationAccount);

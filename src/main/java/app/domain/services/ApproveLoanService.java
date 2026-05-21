@@ -13,11 +13,8 @@ public class ApproveLoanService {
     }
 
     public void execute(ApproveLoanCommand command) {
-        // Find loan
-        Loan loan = loanRepository.findByLoanId(command.getLoanId());
-        if (loan == null) {
-            throw new IllegalArgumentException("Loan with ID " + command.getLoanId() + " not found");
-        }
+        Loan loan = loanRepository.findByLoanId(command.getLoanId())
+            .orElseThrow(() -> new IllegalArgumentException("Loan with ID " + command.getLoanId() + " not found"));
 
         // Validate loan is in UNDER_REVIEW status
         if (!LoanStatus.UNDER_REVIEW.equals(loan.getLoanStatus())) {

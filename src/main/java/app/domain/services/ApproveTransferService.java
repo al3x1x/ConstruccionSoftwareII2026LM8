@@ -13,11 +13,8 @@ public class ApproveTransferService {
     }
 
     public void execute(ApproveTransferCommand command) {
-        // Find transfer
-        Transfer transfer = transferRepository.findByTransferId(command.getTransferId());
-        if (transfer == null) {
-            throw new IllegalArgumentException("Transfer with ID " + command.getTransferId() + " not found");
-        }
+        Transfer transfer = transferRepository.findByTransferId(command.getTransferId())
+            .orElseThrow(() -> new IllegalArgumentException("Transfer with ID " + command.getTransferId() + " not found"));
 
         // Validate transfer is awaiting approval
         if (!TransferStatus.AWAITING_APPROVAL.equals(transfer.getStatus())) {

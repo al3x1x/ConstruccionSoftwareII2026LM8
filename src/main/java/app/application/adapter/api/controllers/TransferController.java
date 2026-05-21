@@ -1,7 +1,6 @@
 package app.application.adapter.api.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import app.application.usecases.CreateTransferUseCase;
 import app.application.usecases.ApproveTransferUseCase;
@@ -28,8 +27,7 @@ public class TransferController {
 
     @PostMapping
     public ResponseEntity<Transfer> createTransfer(
-            @RequestBody CreateTransferCommand command,
-            Authentication auth) {
+            @RequestBody CreateTransferCommand command) {
         Transfer transfer = createTransferUseCase.execute(command);
         return ResponseEntity.ok(transfer);
     }
@@ -37,8 +35,7 @@ public class TransferController {
     @PostMapping("/{transferId}/approve")
     public ResponseEntity<Void> approveTransfer(
             @PathVariable String transferId,
-            @RequestBody ApproveTransferCommand command,
-            Authentication auth) {
+            @RequestBody ApproveTransferCommand command) {
         command.setTransferId(transferId);
         approveTransferUseCase.execute(command);
         return ResponseEntity.ok().build();
@@ -47,8 +44,7 @@ public class TransferController {
     @PostMapping("/{transferId}/execute")
     public ResponseEntity<Void> executeTransfer(
             @PathVariable String transferId,
-            @RequestBody ExecuteTransferCommand command,
-            Authentication auth) {
+            @RequestBody ExecuteTransferCommand command) {
         command.setTransferId(transferId);
         executeTransferUseCase.execute(command);
         return ResponseEntity.ok().build();

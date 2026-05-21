@@ -6,7 +6,10 @@ import app.domain.models.Transfer;
 import app.domain.models.AuditLog;
 import app.domain.ports.TransferRepository;
 import app.domain.ports.AuditLogRepository;
+import app.domain.enums.AuditOperationType;
 import app.domain.enums.TransferStatus;
+import app.domain.enums.UserRole;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -31,17 +34,16 @@ public class TransferExpirationScheduler {
             if (transfer.checkExpiration()) {
                 transferRepository.update(transfer);
 
-                AuditLog log = new AuditLog(
-                    UUID.randomUUID().toString(),
-                    "SYSTEM",
-                    "TRANSFER_EXPIRED",
-                    "Transfer",
-                    transfer.getTransferId(),
-                    LocalDateTime.now(),
-                    "Transfer expirado después de 60 minutos sin aprobación"
-                );
-                auditLogRepository.save(log);
+AuditLog auditLog = new AuditLog(
+    java.util.UUID.randomUUID().toString(), // auditLogId
+    AuditOperationType.TRANSFER_EXPIRED, 
+    "SYSTEM",                               // executorUserId
+    UserRole.INTERNAL_ANALYST,                    
+    transfer.getTransferId()              
+);
+auditLogRepository.save(auditLog);
             }
         }
     }
 }
+

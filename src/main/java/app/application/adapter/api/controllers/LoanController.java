@@ -1,7 +1,6 @@
 package app.application.adapter.api.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import app.application.usecases.ApproveLoanUseCase;
 import app.application.usecases.RejectLoanUseCase;
@@ -28,8 +27,7 @@ public class LoanController {
     @PostMapping("/{loanId}/approve")
     public ResponseEntity<Void> approveLoan(
             @PathVariable String loanId,
-            @RequestBody ApproveLoanCommand command,
-            Authentication auth) {
+            @RequestBody ApproveLoanCommand command) {
         command.setLoanId(loanId);
         approveLoanUseCase.execute(command);
         return ResponseEntity.ok().build();
@@ -38,8 +36,7 @@ public class LoanController {
     @PostMapping("/{loanId}/reject")
     public ResponseEntity<Void> rejectLoan(
             @PathVariable String loanId,
-            @RequestBody RejectLoanCommand command,
-            Authentication auth) {
+            @RequestBody RejectLoanCommand command) {
         command.setLoanId(loanId);
         rejectLoanUseCase.execute(command);
         return ResponseEntity.ok().build();
@@ -48,8 +45,7 @@ public class LoanController {
     @PostMapping("/{loanId}/disburse")
     public ResponseEntity<Void> disburseLoan(
             @PathVariable String loanId,
-            @RequestBody DisburseLoanCommand command,
-            Authentication auth) {
+            @RequestBody DisburseLoanCommand command) {
         command.setLoanId(loanId);
         disburseLoanUseCase.execute(command);
         return ResponseEntity.ok().build();

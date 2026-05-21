@@ -21,11 +21,9 @@ public class CreateBankAccountService {
     }
 
     public BankAccount execute(CreateBankAccountCommand command) {
-        // Validate that user exists
-        User holder = userRepository.findById(command.getHolderId());
-        if (holder == null) {
-            throw new IllegalArgumentException("User with ID " + command.getHolderId() + " not found");
-        }
+        // 1. CORREGIDO: Extraemos el usuario de forma segura con orElseThrow() desvolviendo el Optional
+        User holder = userRepository.findById(command.getHolderId())
+            .orElseThrow(() -> new IllegalArgumentException("User with ID " + command.getHolderId() + " not found"));
 
         // Validate that account doesn't already exist
         if (bankAccountRepository.existsByAccountNumber(command.getAccountNumber())) {

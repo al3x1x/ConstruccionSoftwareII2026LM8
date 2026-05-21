@@ -20,27 +20,20 @@ public class ExecuteTransferService {
     }
 
     public void execute(ExecuteTransferCommand command) {
-        // Find transfer
-        Transfer transfer = transferRepository.findByTransferId(command.getTransferId());
-        if (transfer == null) {
-            throw new IllegalArgumentException("Transfer with ID " + command.getTransferId() + " not found");
-        }
+        // 1. CORREGIDO: Descomprimir el Optional de la transferencia
+        Transfer transfer = transferRepository.findByTransferId(command.getTransferId())
+            .orElseThrow(() -> new IllegalArgumentException("Transfer with ID " + command.getTransferId() + " not found"));
 
         // Validate transfer can be executed (APPROVED or PENDING)
         if (!TransferStatus.APPROVED.equals(transfer.getStatus()) && !TransferStatus.PENDING.equals(transfer.getStatus())) {
             throw new InvalidTransferException("Transfer must be APPROVED or PENDING to be executed. Current status: " + transfer.getStatus());
         }
 
-        // Find accounts
-        BankAccount originAccount = bankAccountRepository.findByAccountNumber(transfer.getOriginAccount());
-        if (originAccount == null) {
-            throw new IllegalArgumentException("Origin account not found");
-        }
+        BankAccount originAccount = bankAccountRepository.findByAccountNumber(transfer.getOriginAccount())
+            .orElseThrow(() -> new IllegalArgumentException("Origin account not found"));
 
-        BankAccount destinationAccount = bankAccountRepository.findByAccountNumber(transfer.getDestinationAccount());
-        if (destinationAccount == null) {
-            throw new IllegalArgumentException("Destination account not found");
-        }
+        BankAccount destinationAccount = bankAccountRepository.findByAccountNumber(transfer.getDestinationAccount())
+            .orElseThrow(() -> new IllegalArgumentException("Destination account not found"));
 
         // Validate origin account has sufficient funds
         if (originAccount.getCurrentBalance().compareTo(transfer.getAmount()) < 0) {
