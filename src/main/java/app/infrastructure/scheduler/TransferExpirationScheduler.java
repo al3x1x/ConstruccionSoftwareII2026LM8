@@ -34,14 +34,14 @@ public class TransferExpirationScheduler {
             if (transfer.checkExpiration()) {
                 transferRepository.update(transfer);
 
-AuditLog auditLog = new AuditLog(
-    java.util.UUID.randomUUID().toString(), // auditLogId
-    AuditOperationType.TRANSFER_EXPIRED, 
-    "SYSTEM",                               // executorUserId
-    UserRole.INTERNAL_ANALYST,                    
-    transfer.getTransferId()              
-);
-auditLogRepository.save(auditLog);
+                AuditLog auditLog = new AuditLog(
+                    java.util.UUID.randomUUID().toString(),
+                    AuditOperationType.TRANSFER_EXPIRED,
+                    "SYSTEM",
+                    UserRole.INTERNAL_ANALYST,
+                    transfer.getTransferId()
+                );
+                auditLogRepository.save(auditLog);
             }
         }
     }

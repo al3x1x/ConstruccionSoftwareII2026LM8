@@ -2,21 +2,47 @@ package app.domain.models;
 
 import app.domain.enums.UserRole;
 import app.domain.enums.UserStatus;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class User {
 
+    @Id
     private String userId;
+
+    @Column(nullable = false)
     private String fullName;
+
+    @Column(nullable = false, unique = true)
     private String identificationNumber;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
     private String phone;
+
+    @Column(nullable = false)
     private LocalDate birthDate;
+
     private String address;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserRole role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserStatus status;
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String passwordHash;
 
 

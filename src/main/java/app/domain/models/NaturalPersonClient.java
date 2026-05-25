@@ -1,17 +1,25 @@
 package app.domain.models;
 
 import app.domain.enums.UserRole;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@DiscriminatorValue("NATURAL_PERSON_CLIENT")
 public class NaturalPersonClient extends User {
 
+    @Transient
     private List<BankAccount> accounts;
+    @Transient
     private List<Loan> loans;
+    @Transient
     private List<Transfer> transfers;
+
+    @Column(nullable = true)
     private String assignedCommercialEmployeeId;
 
     // ── Constructor ───────────────────────────────────────────────────

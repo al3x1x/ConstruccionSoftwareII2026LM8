@@ -1,53 +1,42 @@
 package app.domain.models;
 
 import app.domain.enums.TransferStatus;
-
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Transfer {
 
+    public static final BigDecimal APPROVAL_THRESHOLD = new BigDecimal("10000.00");
+    public static final long EXPIRATION_MINUTES = 60;
+
     private String transferId;
-    private String originAccount;
-    private String destinationAccount;
+    private String originAccountNumber;
+    private String destinationAccountNumber;
     private BigDecimal amount;
+    private LocalDate transferDate;
     private LocalDateTime creationDate;
-    private LocalDateTime approvalDate;
     private TransferStatus status;
     private String creatorUserId;
     private String approverUserId;
-    private String assignedCommercialEmployeeId;
+    private LocalDateTime approvalDate;
 
-    // Business rule: enterprise transfers above this amount require approval
-    public static final BigDecimal APPROVAL_THRESHOLD = new BigDecimal("10000.00");
-
-    // Business rule: if more than 60 minutes pass without approval, transfer expires
-    public static final long EXPIRATION_MINUTES = 60;
-
-
-    public Transfer(String transferId, String originAccount,
-                    String destinationAccount, BigDecimal amount, String creatorUserId) {
+    public Transfer(String transferId, String originAccountNumber,
+                    String destinationAccountNumber, BigDecimal amount,
+                    String creatorUserId) {
         this.transferId = transferId;
-        this.originAccount = originAccount;
-        this.destinationAccount = destinationAccount;
+        this.originAccountNumber = originAccountNumber;
+        this.destinationAccountNumber = destinationAccountNumber;
         this.amount = amount;
         this.creatorUserId = creatorUserId;
+        this.transferDate = LocalDate.now();
         this.creationDate = LocalDateTime.now();
-
-        // If exceeds threshold, approval from supervisor is required
         if (amount.compareTo(APPROVAL_THRESHOLD) > 0) {
             this.status = TransferStatus.AWAITING_APPROVAL;
         } else {
             this.status = TransferStatus.PENDING;
         }
-    }
-
-
-    public void execute(BankAccount origin, BankAccount destination) {
-        origin.debit(this.amount);
-        destination.credit(this.amount);
-        this.status = TransferStatus.EXECUTED;
     }
 
     public void approve(String approverUserId) {
@@ -61,54 +50,33 @@ public class Transfer {
         this.status = TransferStatus.REJECTED;
     }
 
+    public void execute(BankAccount origin, BankAccount destination) {
+        origin.debit(this.amount);
+        destination.credit(this.amount);
+        this.status = TransferStatus.EXECUTED;
+    }
+
     public boolean checkExpiration() {
         if (!TransferStatus.AWAITING_APPROVAL.equals(this.status)) return false;
-
-        long minutesElapsed = ChronoUnit.MINUTES.between(this.creationDate, LocalDateTime.now());
-
-        if (minutesElapsed > EXPIRATION_MINUTES) {
+        long minutes = ChronoUnit.MINUTES.between(this.creationDate, LocalDateTime.now());
+        if (minutes > EXPIRATION_MINUTES) {
             this.status = TransferStatus.EXPIRED;
             return true;
         }
         return false;
     }
 
-
+    public String getOriginAccount() { return originAccountNumber; }
+    public String getDestinationAccount() { return destinationAccountNumber; }
     public String getTransferId() { return transferId; }
-    public void setTransferId(String transferId) { this.transferId = transferId; }
-
-    public String getOriginAccount() { return originAccount; }
-    public void setOriginAccount(String originAccount) { this.originAccount = originAccount; }
-
-    public String getDestinationAccount() { return destinationAccount; }
-    public void setDestinationAccount(String destinationAccount) { this.destinationAccount = destinationAccount; }
-
+    public String getOriginAccountNumber() { return originAccountNumber; }
+    public String getDestinationAccountNumber() { return destinationAccountNumber; }
     public BigDecimal getAmount() { return amount; }
-    public void setAmount(BigDecimal amount) { this.amount = amount; }
-
+    public LocalDate getTransferDate() { return transferDate; }
     public LocalDateTime getCreationDate() { return creationDate; }
-    public void setCreationDate(LocalDateTime creationDate) { this.creationDate = creationDate; }
-
-    public LocalDateTime getApprovalDate() { return approvalDate; }
-    public void setApprovalDate(LocalDateTime approvalDate) { this.approvalDate = approvalDate; }
-
     public TransferStatus getStatus() { return status; }
     public void setStatus(TransferStatus status) { this.status = status; }
-
     public String getCreatorUserId() { return creatorUserId; }
-    public void setCreatorUserId(String creatorUserId) { this.creatorUserId = creatorUserId; }
-
     public String getApproverUserId() { return approverUserId; }
-    public void setApproverUserId(String approverUserId) { this.approverUserId = approverUserId; }
-
-    public String getAssignedCommercialEmployeeId() { return assignedCommercialEmployeeId; }
-    public void setAssignedCommercialEmployeeId(String assignedCommercialEmployeeId) {
-        this.assignedCommercialEmployeeId = assignedCommercialEmployeeId;
-    }
-
-    @Override
-    public String toString() {
-        return "Transfer{transferId='" + transferId + "', from='" + originAccount +
-               "', to='" + destinationAccount + "', amount=" + amount + ", status=" + status + "}";
-    }
+    public LocalDateTime getApprovalDate() { return approvalDate; }
 }

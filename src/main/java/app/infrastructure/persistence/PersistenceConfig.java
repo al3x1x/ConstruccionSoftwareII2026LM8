@@ -1,6 +1,6 @@
 package app.infrastructure.persistence;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,18 +25,52 @@ import jakarta.persistence.EntityManagerFactory;
 )
 public class PersistenceConfig {
 
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
+
+    @Value("${spring.datasource.username}")
+    private String dbUsername;
+
+    @Value("${spring.datasource.password}")
+    private String dbPassword;
+
+    @Value("${spring.datasource.driver-class-name}")
+    private String dbDriverClassName;
+
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource sqlserverDataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create()
+            .url(dbUrl)
+            .username(dbUsername)
+            .password(dbPassword)
+            .driverClassName(dbDriverClassName)
+            .build();
     }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean sqlserverEntityManagerFactory(DataSource sqlserverDataSource) {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(sqlserverDataSource);
-        factory.setPackagesToScan("app.application.adapter.persistence.sqlserver.entities");
-        factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+        // ← CAMBIO: ahora escanea ambos paquetes
+        factory.setPackagesToScan(
+            "app.domain.models",
+            "app.application.adapter.persistence.sqlserver.entities"
+        );
+
+        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        adapter.setShowSql(false);
+        adapter.setGenerateDdl(true);
+        adapter.setDatabasePlatform("org.hibernate.dialect.SQLServerDialect");
+        factory.setJpaVendorAdapter(adapter);
+
+        java.util.Properties props = new java.util.Properties();
+        props.put("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
+        props.put("hibernate.ddl-auto", "update");
+        props.put("hibernate.format_sql", "true");
+        props.put("hibernate.show_sql", "false");
+        factory.setJpaProperties(props);
+
         factory.setPersistenceUnitName("sqlserver");
         return factory;
     }

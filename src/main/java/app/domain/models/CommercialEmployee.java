@@ -4,10 +4,14 @@ import app.domain.enums.AccountType;
 import app.domain.enums.LoanStatus;
 import app.domain.enums.LoanType;
 import app.domain.enums.UserRole;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@DiscriminatorValue("COMMERCIAL_EMPLOYEE")
 public class CommercialEmployee extends User {
 
     // ── Constructor ────────────────────────────────────────────────────

@@ -2,6 +2,7 @@ package app.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -30,6 +31,8 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter(jwtUtil);
     }
 
+    
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -51,10 +54,10 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("GET", "/api/clients/**").hasAnyRole("COMMERCIAL_EMPLOYEE", "COMPANY_SUPERVISOR", "INTERNAL_ANALYST")
-                .requestMatchers("POST", "/api/loans/**/approve").hasAnyRole("INTERNAL_ANALYST", "COMPANY_SUPERVISOR")
-                .requestMatchers("POST", "/api/transfers").authenticated()
-                .requestMatchers("GET", "/api/accounts/**").hasAnyRole("TELLER_EMPLOYEE", "COMMERCIAL_EMPLOYEE", "NATURAL_PERSON_CLIENT", "COMPANY_CLIENT")
+                .requestMatchers(HttpMethod.GET, "/api/clients/**").hasAnyRole("COMMERCIAL_EMPLOYEE", "COMPANY_SUPERVISOR", "INTERNAL_ANALYST")
+                .requestMatchers(HttpMethod.POST, "/api/loans/**").hasAnyRole("INTERNAL_ANALYST", "COMPANY_SUPERVISOR")
+                .requestMatchers(HttpMethod.POST, "/api/transfers").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/accounts/**").hasAnyRole("TELLER_EMPLOYEE", "COMMERCIAL_EMPLOYEE", "NATURAL_PERSON_CLIENT", "COMPANY_CLIENT")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

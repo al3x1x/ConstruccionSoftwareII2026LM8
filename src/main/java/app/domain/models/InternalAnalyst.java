@@ -2,10 +2,14 @@ package app.domain.models;
 
 import app.domain.enums.LoanStatus;
 import app.domain.enums.UserRole;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@DiscriminatorValue("INTERNAL_ANALYST")
 public class InternalAnalyst extends User {
 
     // ── Constructor ───────────────────────────────────────────────────

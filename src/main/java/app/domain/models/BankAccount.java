@@ -55,6 +55,7 @@ public class BankAccount {
     public void setHolderId(String holderId) { this.holderId = holderId; }
 
     public BigDecimal getCurrentBalance() { return currentBalance; }
+    public void setCurrentBalance(BigDecimal currentBalance) { this.currentBalance = currentBalance; }
 
     public String getCurrency() { return currency; }
     public void setCurrency(String currency) { this.currency = currency; }

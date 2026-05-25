@@ -2,11 +2,15 @@ package app.domain.models;
 
 import app.domain.enums.TransferStatus;
 import app.domain.enums.UserRole;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
+@DiscriminatorValue("COMPANY_SUPERVISOR")
 public class CompanySupervisor extends User {
 
+    @Column(nullable = false)
     private String companyId;
 
 

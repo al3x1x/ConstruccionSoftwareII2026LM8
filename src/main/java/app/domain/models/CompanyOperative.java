@@ -1,14 +1,18 @@
 package app.domain.models;
 
 import app.domain.enums.UserRole;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@DiscriminatorValue("COMPANY_OPERATIVE")
 public class CompanyOperative extends User {
 
+    @Column(nullable = false)
     private String companyId;
 
     // ── Constructor ───────────────────────────────────────────────────
