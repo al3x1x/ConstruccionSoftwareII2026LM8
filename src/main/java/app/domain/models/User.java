@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class User {
 
+    @Column(name = "userId")
     @Id
     private String userId;
 
@@ -42,10 +43,16 @@ public abstract class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "passwordHash", nullable = false) // <── Cambia esta línea sumándole el name
     private String passwordHash;
 
 
+    // ── 1. CONSTRUCTOR VACÍO (EL QUE AGREGAMOS NUEVO) ──────────────────
+    public User() {
+        // Obligatorio para que Hibernate funcione con la herencia
+    }
+
+    // ── 2. CONSTRUCTOR PARAMETRIZADO (EL QUE YA TENÍAS) ───────────────
     public User(String userId, String fullName, String identificationNumber,
                 String email, String phone, LocalDate birthDate,
                 String address, UserRole role, String username, String passwordHash) {
@@ -63,12 +70,12 @@ public abstract class User {
         this.status = UserStatus.ACTIVE; // todo usuario empieza activo
     }
 
-
+    // ── 3. MÉTODOS DE NEGOCIO (SE QUEDAN IGUAL) ────────────────────────
     public boolean isActive() {
         return UserStatus.ACTIVE.equals(this.status);
     }
 
-
+    // ── 4. GETTERS Y SETTERS (¡AQUÍ SIGUEN ESTANDO!) ───────────────────
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }
 

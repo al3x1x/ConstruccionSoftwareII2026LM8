@@ -22,7 +22,16 @@ public class NaturalPersonClient extends User {
     @Column(nullable = true)
     private String assignedCommercialEmployeeId;
 
-    // ── Constructor ───────────────────────────────────────────────────
+    // ── Constructor Vacío Obligatorio para Hibernate ──────────────────
+    public NaturalPersonClient() {
+        super();
+        // Inicializamos las listas transient para prevenir NullPointerException
+        this.accounts = new ArrayList<>();
+        this.loans = new ArrayList<>();
+        this.transfers = new ArrayList<>();
+    }
+
+    // ── Constructor Parametrizado ─────────────────────────────────────
 
     public NaturalPersonClient(String userId, String fullName, String identificationNumber,
                                 String email, String phone, LocalDate birthDate,
@@ -54,7 +63,7 @@ public class NaturalPersonClient extends User {
         this.transfers.add(transfer);
     }
 
-    // ── Getters ───────────────────────────────────────────────────────
+    // ── Getters & Setters ─────────────────────────────────────────────
 
     public List<BankAccount> getAccounts() { return accounts; }
     public List<Loan> getLoans() { return loans; }

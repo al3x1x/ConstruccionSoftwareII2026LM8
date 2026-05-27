@@ -13,6 +13,12 @@ public class CompanySupervisor extends User {
     @Column(nullable = false)
     private String companyId;
 
+    // ── Constructor Vacío Obligatorio para Hibernate ──────────────────
+    public CompanySupervisor() {
+        super();
+    }
+
+    // ── Constructor Parametrizado ─────────────────────────────────────
 
     public CompanySupervisor(String userId, String fullName, String identificationNumber,
                               String email, String phone, LocalDate birthDate,
@@ -24,6 +30,7 @@ public class CompanySupervisor extends User {
         this.companyId = companyId;
     }
 
+    // ── Métodos de negocio ────────────────────────────────────────────
 
     public void approveTransfer(Transfer transfer, BankAccount originAccount) {
         if (!TransferStatus.AWAITING_APPROVAL.equals(transfer.getStatus())) {
@@ -43,6 +50,7 @@ public class CompanySupervisor extends User {
         transfer.reject(this.getUserId());
     }
 
+    // ── Getters & Setters ─────────────────────────────────────────────
 
     public String getCompanyId() { return companyId; }
     public void setCompanyId(String companyId) { this.companyId = companyId; }

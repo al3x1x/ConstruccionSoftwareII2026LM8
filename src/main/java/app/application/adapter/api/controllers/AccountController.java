@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import app.application.usecases.CreateBankAccountUseCase;
 import app.domain.models.BankAccount;
 import app.domain.services.commands.CreateBankAccountCommand;
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -14,6 +16,11 @@ public class AccountController {
 
     public AccountController(CreateBankAccountUseCase createBankAccountUseCase) {
         this.createBankAccountUseCase = createBankAccountUseCase;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BankAccount>> listAccounts(Authentication auth) {
+        return ResponseEntity.ok(Collections.emptyList());
     }
 
     @PostMapping

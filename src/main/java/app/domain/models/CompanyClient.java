@@ -14,6 +14,14 @@ public class CompanyClient extends User {
     private List<Loan> loans;
     private List<User> operativeUsers;
 
+    // ── Constructor vacío obligatorio para Hibernate ───────────────────
+    public CompanyClient() {
+        super();
+        this.accounts = new ArrayList<>();
+        this.loans = new ArrayList<>();
+        this.operativeUsers = new ArrayList<>();
+    }
+
     // ── Constructor ───────────────────────────────────────────────────
 
     public CompanyClient(String userId, String companyName, String taxId,

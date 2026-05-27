@@ -4,6 +4,7 @@ public class AuthResponseDTO {
     private String token;
     private String username;
     private String role;
+    private String identificationNumber;
 
     public AuthResponseDTO() {}
 
@@ -11,6 +12,13 @@ public class AuthResponseDTO {
         this.token = token;
         this.username = username;
         this.role = role;
+    }
+
+    public AuthResponseDTO(String token, String username, String role, String identificationNumber) {
+        this.token = token;
+        this.username = username;
+        this.role = role;
+        this.identificationNumber = identificationNumber;
     }
 
     public String getToken() {
@@ -36,4 +44,7 @@ public class AuthResponseDTO {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public String getIdentificationNumber() { return identificationNumber; }
+    public void setIdentificationNumber(String identificationNumber) { this.identificationNumber = identificationNumber; }
 }

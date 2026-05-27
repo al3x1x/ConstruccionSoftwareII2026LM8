@@ -4,6 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import java.util.stream.Collectors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,5 +39,18 @@ public class GlobalExceptionHandler {
         error.put("status", "500");
         error.put("message", "An unexpected error occurred.");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    // Captura errores de validación @Valid
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("status", 400);
+        resp.put("message", "Validation failed");
+        resp.put("errors", ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(f -> f.getField() + ": " + f.getDefaultMessage())
+                .collect(Collectors.toList()));
+        return ResponseEntity.badRequest().body(resp);
     }
 }

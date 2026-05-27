@@ -6,13 +6,23 @@
 -- ============================================================
 
 -- 1. TABLA: users
+-- ============================================================
+-- IMPORTANTES: Campos deben coincidir con modelo Java
+-- NOTA: Hibernate convierte camelCase a snake_case automáticamente
+-- ============================================================
 CREATE TABLE users (
     user_id VARCHAR(36) PRIMARY KEY,
-    name NVARCHAR(255) NOT NULL,
+    user_type VARCHAR(50) NOT NULL,  -- Para herencia SINGLE_TABLE (DISCRIMINATOR)
+    full_name NVARCHAR(255) NOT NULL,
+    identification_number VARCHAR(50) UNIQUE NOT NULL,
     email NVARCHAR(255) UNIQUE NOT NULL,
-    phone NVARCHAR(20) NOT NULL,
-    role VARCHAR(50) NOT NULL,
-    status VARCHAR(50) NOT NULL,
+    phone NVARCHAR(20),
+    birth_date DATE NOT NULL,
+    address NVARCHAR(500),
+    role VARCHAR(50) NOT NULL,  -- ENUM: NATURAL_PERSON_CLIENT, COMPANY_CLIENT, TELLER_EMPLOYEE, COMMERCIAL_EMPLOYEE, COMPANY_OPERATIVE, COMPANY_SUPERVISOR, INTERNAL_ANALYST
+    status VARCHAR(50) NOT NULL,  -- ENUM: ACTIVE, INACTIVE, SUSPENDED
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT GETDATE(),
     updated_at DATETIME NULL
 );
@@ -78,8 +88,11 @@ CREATE TABLE audit_logs (
 -- CREAR ÍNDICES PARA OPTIMIZAR CONSULTAS
 -- ============================================================
 
+CREATE INDEX idx_users_username ON users(username);
 CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_identification ON users(identification_number);
 CREATE INDEX idx_users_role ON users(role);
+CREATE INDEX idx_users_status ON users(status);
 CREATE INDEX idx_bank_accounts_holder ON bank_accounts(holder_id);
 CREATE INDEX idx_bank_accounts_status ON bank_accounts(status);
 CREATE INDEX idx_loans_client ON loans(client_id);

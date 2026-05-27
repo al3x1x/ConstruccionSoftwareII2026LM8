@@ -15,7 +15,12 @@ public class CompanyOperative extends User {
     @Column(nullable = false)
     private String companyId;
 
-    // ── Constructor ───────────────────────────────────────────────────
+    // ── Constructor Vacío Obligatorio para Hibernate ──────────────────
+    public CompanyOperative() {
+        super();
+    }
+
+    // ── Constructor Parametrizado ─────────────────────────────────────
 
     public CompanyOperative(String userId, String fullName, String identificationNumber,
                              String email, String phone, LocalDate birthDate,

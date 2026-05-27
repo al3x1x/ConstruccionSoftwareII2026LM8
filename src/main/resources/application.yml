@@ -7,21 +7,21 @@ spring:
       enabled: false
 
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=bank_db;encrypt=true;trustServerCertificate=true;
+    url: jdbc:sqlserver://localhost:1433;databaseName=BankDB;encrypt=true;trustServerCertificate=true;instanceName=SQLEXPRESS
     username: sa
     password: Bank123!
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.SQLServer2016Dialect
+        dialect: org.hibernate.dialect.SQLServerDialect
         format_sql: true
         show_sql: false
     show-sql: false
-    database-platform: org.hibernate.dialect.SQLServer2016Dialect
+    database-platform: org.hibernate.dialect.SQLServerDialect
 
   data:
     mongodb:
@@ -35,8 +35,6 @@ logging:
 
 server:
   port: 8080
-  servlet:
-    context-path: /api
 
 management:
   endpoints:
@@ -48,4 +46,3 @@ app:
   jwt:
     secret: ${JWT_SECRET:your-super-secret-key-change-this-in-production-at-least-32-characters-long}
     expiration: 86400000
-

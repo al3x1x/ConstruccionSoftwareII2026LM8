@@ -10,6 +10,11 @@ import java.util.Optional;
 
 public interface UserRepositorySpringData extends JpaRepository<User, String> {
     Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
+    Optional<User> findByIdentificationNumber(String identificationNumber);
+
+    boolean existsByEmail(String email);
+    boolean existsByIdentificationNumber(String identificationNumber);
 }
 
 @Repository
@@ -49,5 +54,16 @@ class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean existsByUsername(String username) {
         return springDataRepo.findByUsername(username).isPresent();
+    }
+
+    // AGREGADO: Conexión con las validaciones requeridas por el dominio
+    @Override
+    public boolean existsByEmail(String email) {
+        return springDataRepo.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByIdentificationNumber(String idNum) {
+        return springDataRepo.existsByIdentificationNumber(idNum);
     }
 }

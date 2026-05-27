@@ -26,14 +26,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtUtil);
-    }
-
-    
-
-    @Bean
+    @Bean 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
@@ -42,25 +35,23 @@ public class SecurityConfig {
                 .authenticationEntryPoint((request, response, authException) -> {
                     response.setStatus(401);
                     response.setContentType("application/json;charset=UTF-8");
-                    // Escribimos el JSON directamente como una cadena de texto
                     response.getWriter().write("{\"status\":401,\"message\":\"No autorizado - Token inválido o ausente\"}");
-                })
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    response.setStatus(403);
-                    response.setContentType("application/json;charset=UTF-8");
-                    // Escribimos el JSON directamente como una cadena de texto
-                    response.getWriter().write("{\"status\":403,\"message\":\"Acceso denegado - No tienes los permisos requeridos\"}");
                 })
             )
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/clients/**").hasAnyRole("COMMERCIAL_EMPLOYEE", "COMPANY_SUPERVISOR", "INTERNAL_ANALYST")
-                .requestMatchers(HttpMethod.POST, "/api/loans/**").hasAnyRole("INTERNAL_ANALYST", "COMPANY_SUPERVISOR")
+                // Liberar de forma absoluta CUALQUIER petición que contenga /auth/
+                .requestMatchers("/api/auth/**", "/auth/**", "/api/auth/login", "/api/auth/register").permitAll()
+                
+                // Rutas del negocio protegidas con roles
+                .requestMatchers(HttpMethod.GET, "/api/clients/**").hasAnyAuthority("COMMERCIAL_EMPLOYEE", "COMPANY_SUPERVISOR", "INTERNAL_ANALYST")
+                .requestMatchers(HttpMethod.POST, "/api/loans/**").hasAnyAuthority("INTERNAL_ANALYST", "COMPANY_SUPERVISOR")
                 .requestMatchers(HttpMethod.POST, "/api/transfers").authenticated()
-                .requestMatchers(HttpMethod.GET, "/api/accounts/**").hasAnyRole("TELLER_EMPLOYEE", "COMMERCIAL_EMPLOYEE", "NATURAL_PERSON_CLIENT", "COMPANY_CLIENT")
+                .requestMatchers(HttpMethod.GET, "/api/accounts/**").hasAnyAuthority("TELLER_EMPLOYEE", "COMMERCIAL_EMPLOYEE", "NATURAL_PERSON_CLIENT", "COMPANY_CLIENT")
+                
+                // Cualquier otra requiere token
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

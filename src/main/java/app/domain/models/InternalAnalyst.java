@@ -12,8 +12,12 @@ import java.time.LocalDate;
 @DiscriminatorValue("INTERNAL_ANALYST")
 public class InternalAnalyst extends User {
 
-    // ── Constructor ───────────────────────────────────────────────────
+    // ── Constructor Vacío Obligatorio ─────────────────────────────────
+    public InternalAnalyst() {
+        super();
+    }
 
+    // ── Constructor Parametrizado ─────────────────────────────────────
     public InternalAnalyst(String userId, String fullName, String identificationNumber,
                             String email, String phone, LocalDate birthDate,
                             String address, String username, String passwordHash) {
